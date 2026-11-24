@@ -1,0 +1,30 @@
+{
+ "reps": 1000,
+ "Ts": [
+  120,
+  240,
+  480,
+  960,
+  3000,
+  6000
+ ],
+ "scenarios": [
+  "A0",
+  "Aa"
+ ],
+ "sigma_seed": 3267,
+ "root_seed": 20111,
+ "rules": [
+  "ew",
+  "ml",
+  "pj",
+  "mp",
+  "kz",
+  "cml",
+  "cpj",
+  "cmp",
+  "ckz"
+ ],
+ "started": "2026-11-18T12:23:21",
+ "workers": 2
+}
