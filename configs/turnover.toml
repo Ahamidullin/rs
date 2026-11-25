@@ -1,0 +1,7 @@
+[turnover]
+cost_bps = [0, 10, 25, 50]
+
+[bootstrap]
+replicates = 2000
+block_months = 12
+seed = 201104

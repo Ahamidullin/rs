@@ -1,0 +1,29 @@
+{
+  "renderer": "3.11.2",
+  "code_sha256": "c565651a1493f9b03a2f06251b723dd40366bf24f7ef2bb59b991d1574d49208",
+  "source_sha256": {
+    "results/sim_full/tables1_3_comparison.csv": "7a6eb34e886220c7dc2c673cec9cd45f78e53de9d906945117ceef7f805ba4e1",
+    "references/table2b_figure.csv": "4aae955cf295980a798a9434acc9e97803939a14e091f418fa2d2eb6bfd1d09f",
+    "runs/part3_rebuilt/table6.csv": "07415a84710b7aedcbc25764b432eb25141a29d983677d4a487b4deffa6ce4f0",
+    "results/extensions/turnover/summary.csv": "091c5ca587b8bb39b12e11b15ce2e04b21066887ede8c6cb58e35636b8971f5c",
+    "results/extensions/stability/summary.csv": "dab1069d04cae9fddd062aed74f5dd7ade1af857636917865c0843bd289afa3a",
+    "results/extensions/stability/groups.csv": "f965a713a1b9ab5e526b3aa9c5581294ab886e6058155825efca2f9cfcdc8210"
+  },
+  "output_sha256": {
+    "01_simulation.png": "e4554ca232542ebdbd5f9d215a833e84ebe4620342ec0c0397bef8e0d71c5bb3",
+    "02_empirical_gap.png": "ed2ab3b49d61b0e32c482532ec4fddea3af7289b040fbc8033e9071f435226ae",
+    "03_turnover.png": "427a31dc943187428baf95ae12d2994d9c307128bf06497dff2b1a443438fadd",
+    "04_stability.png": "1f6e6118124900725315d897b67dfb5fe82a4a552e48795132e93d862bf04fc7"
+  },
+  "run_ids": {
+    "table6": [
+      "e63b28306638e6fe"
+    ],
+    "turnover": [
+      "aad093ed9437441c"
+    ],
+    "stability": [
+      "ef8905b358179511"
+    ]
+  }
+}

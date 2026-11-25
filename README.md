@@ -1,17 +1,20 @@
 # Markowitz meets Talmud
 
-Репликация статьи Jun Tu и Guofu Zhou (2011). Проверяем, как смеси равновзвешенного портфеля с оценочными правилами меняют риск-скорректированную доходность. [Статья в Journal of Financial Economics](https://doi.org/10.1016/j.jfineco.2010.08.013).
+Replication of Jun Tu and Guofu Zhou (2011). We examine how combining an equal-weight portfolio with estimated portfolio rules affects risk-adjusted returns. [Journal of Financial Economics article](https://doi.org/10.1016/j.jfineco.2010.08.013).
 
-| Часть | Материалы |
+| Part | Materials |
 | --- | --- |
-| 1. Статья и защита | [Слайды](defense/slides.pdf) · [сценарий](defense/outline.md) |
-| 2. Методы и симуляции | [Код и запуск](RUN_part2.md) · [статус](docs/part2_status.md) · [основной прогон](results/sim_full/tables1_3_comparison.csv) · [сноски 8–9](results/footnotes89/footnote89_paired.csv) |
-| 3. Эмпирическая репликация | [Слайды части 3](defense/part3_slides.pdf) · [текст выступления](defense/part3_talk.md) · [таблица 6](results/replication/table6.csv) · [данные и расхождения](docs/data.md) |
-| Командные материалы | [План проекта и форматы](docs/team/README.md) |
+| 1. Paper and presentation | [Slides](defense/slides.pdf) · [Speaker outline (Russian)](defense/outline.md) |
+| 2. Methods and simulations | [Code and run instructions](RUN_part2.md) · [Status](docs/part2_status.md) · [Main run](results/sim_full/tables1_3_comparison.csv) · [Footnotes 8–9](results/footnotes89/footnote89_paired.csv) |
+| 3. Empirical replication | [Part 3 slides](defense/part3_slides.pdf) · [Speaker notes (Russian)](defense/part3_talk.md) · [Table 6](results/replication/table6.csv) · [Data and discrepancies](docs/data.md) |
+| 4. Extensions and figures | [Run instructions, results, and audit](EXTENSIONS.md) · [Figures and captions](defense/figure_captions.md) · [Conclusions](defense/extension_conclusions.md) |
+| Internal team notes | [Work plan and role assignments (Russian)](docs/team/README.md) |
 
-## Воспроизведение таблицы 6
+[Plain-language article walkthrough (Russian)](docs/article_walkthrough.md) · [Codebase Q&A (Russian)](QA.md)
 
-Из корня репозитория, Python 3.12.
+## Reproducing Table 6
+
+Run these commands from the repository root with Python 3.12.
 
 ```sh
 python3.12 -m venv .venv
@@ -27,4 +30,4 @@ python -m replication.empirical_diagnostics --download
 python -m replication.presentation
 ```
 
-Полный прогон сравнивает 140 ячеек таблицы 6 с публикацией. Совпадения отмечены с допуском 0,005 п.п. Помесячные доходности, веса и подготовленные панели восстанавливаются локально. В [манифесте](results/replication/empirical_manifest.json) указаны версии архивов, хеши и интервалы.
+The full run compares all 140 Table 6 cells with the published values. The match tolerance is 0.005 percentage points. Monthly returns, weights, and processed panels are rebuilt locally. The [manifest](results/replication/empirical_manifest.json) records archive versions, hashes, and date ranges.

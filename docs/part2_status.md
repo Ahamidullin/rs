@@ -1,30 +1,17 @@
-# Участник 2: статус на 18.11 (сессия Claude)
+# Part 2 status as of 18 November
 
-## Закрыто
-1. **MP MLE (App. C).** Профильное правдоподобие сведено к задаче по единичному направлению u:
-   F(u) = (N-1) ln(tr U - u'Uu) + ln(u'Uu - (u'm)^2), U = S0 + mm'.
-   Стационарные точки: (mm' + t S0) u = nu u, t = 1 - s2/c in [0,1); t = 0 соответствует границе a = 0.
-   mu_MP = (u'm) u, c = u'S0u, s2 = (tr U - u'Uu)/(N-1), w_MP = mu_MP/(gamma c).
-   Проверено: совпадение с BFGS по полному (mu, s2, a), NM из нашего решения не улучшает -ln L (разница 4e-10).
-   Обходит спорное чтение (35) с лишним "-1".
-2. **Точный LOO для CMP.** Батчевый Ньютон по (u, nu, t) для всех T удалений сразу, тёплый старт от полной выборки,
-   критерий невязки 1e-13, несошедшиеся случаи и t<0 переоцениваются глобально (счётчик n_refit).
-   Расхождение с прямой глобальной переоценкой каждого удаления: 2.3e-15. T=6000: 0.38 с на повтор (было 39.4 с).
-   Все шесть T вместе: около 0.82 с на повтор, около 2.3 ч на сценарий на одном ядре.
-   w_MP пропорционален 1/gamma, поэтому LOO для gamma=1 и 3 общий.
-3. **DGP A0/Aalpha (ошибка в плане).** N=25 = 24 актива + сам фактор как инвестируемый актив (дизайн DGU).
-   При 25 активах без фактора True 1A около 4.01 и не даёт 4.17 ни на одной из 50 000 выборок sigma.
-   С фактором True = 1200*(muf^2/varf)/(2 gamma) = 4.1667 и 12.50 точно при любых sigma.
-   Вектор sigma: default_rng(3267).uniform(0.10,0.30,24), первая выборка, для которой одновременно сходятся
-   True/EW 1A, 1B, 2A (6 детерминированных якорей). Альтернативы: 4776, 6561, 8516.
-   Для F3alpha аналогично ожидается 22 актива + 3 фактора FF3 (проверить по 2B: True 14.60, EW 3.85).
-4. **CMP delta.** В (18) w* сокращается:
-   delta = (e-w*)'Sigma(e - E v) / E[(e-v)'Sigma(e-v)], w* входит только через mu'E[v]/gamma.
-   Вариант плана (подстановка w* = S0^{-1}m/gamma в C и B при скорректированном pi1 в A) несогласован,
-   |w*_hat| около 18 при истинном около 1, delta уходит в 0 или 1. Теперь E[v], E[v'S0 v] по jackknife, Sigma->S0, mu->m.
+## Completed work
 
-## Контроль 1A, CMP (R=200 при T<=960, R=20 при T>=3000; не финальный прогон)
-| T | наш | ±MCSE | статья |
+1. **MP maximum likelihood estimation (Appendix C).** Profile likelihood reduces to a problem in the unit direction u. The objective is F(u) = (N−1) ln(tr U − u′Uu) + ln(u′Uu − (u′m)²), where U = S0 + mm′. Stationary points satisfy (mm′ + t S0)u = nu·u, with t = 1 − s2/c in [0,1). The boundary a = 0 corresponds to t = 0. The estimates are mu_MP = (u′m)u, c = u′S0u, s2 = (tr U − u′Uu)/(N−1), and w_MP = mu_MP/(gamma c). The result agrees with BFGS on the full (mu, s2, a) parameterization. Starting from this solution, Nelder–Mead returns the same negative log likelihood to within 4e−10. The profile formulation bypasses the ambiguity over an extra “−1” in equation (35).
+2. **Exact leave-one-out (LOO) for CMP.** A batched Newton iteration over (u, nu, t) fits all T deletions, starting from the full-sample fit. The residual tolerance is 1e−13. Nonconverged fits and cases with t < 0 are globally refitted and counted in n_refit. The difference from directly refitting every deletion was 2.3e−15. At T = 6,000, the runtime fell from 39.4 to 0.38 seconds per replication. All six T values take around 0.82 seconds per replication, or about 2.3 hours per scenario on one core. Since w_MP is proportional to 1/gamma, the two gamma settings share the same LOO fits.
+3. **A0/Aalpha data-generating process (DGP).** The adopted DGU design treats the factor as an investable asset, giving N = 25 from 24 assets plus the factor. With 25 assets excluding the factor, the Table 1A True benchmark is around 4.01 and reached 4.17 in none of 50,000 sigma draws. With the factor, True = 1200 × (muf²/varf)/(2 gamma), yielding 4.1667 and 12.50 regardless of the sigma vector. The selected sigma vector comes from `default_rng(3267).uniform(0.10,0.30,24)`, the first draw that simultaneously reproduced the six True/EW benchmarks in 1A, 1B, and 2A at published precision. Alternative seeds include 4776, 6561, and 8516. An analogous F3alpha design would have 22 assets and three FF3 factors. Its Table 2B benchmarks would be True = 14.60 and EW = 3.85.
+4. **CMP mixture weight.** Equation (18) simplifies to delta = (e−w*)′Sigma(e − E[v]) / E[(e−v)′Sigma(e−v)], with w* entering the expanded expression only through mu′E[v]/gamma. The initial plan mixed a plug-in w* = S0⁻¹m/gamma in C and B with an adjusted pi1 in A. That produced an estimated norm near 18 versus a true norm near 1 and drove delta to 0 or 1. The adopted calculation uses jackknife estimates of E[v] and E[v′S0v], with Sigma estimated by S0 and mu by m.
+
+## Preliminary CMP check for Table 1A
+
+This check used R = 200 for T ≤ 960 and R = 20 for T ≥ 3,000.
+
+| T | Computed | ±MCSE | Published |
 |---|---|---|---|
 | 120 | 2.31 | 0.23 | 2.19 |
 | 240 | 3.09 | 0.09 | 3.05 |
@@ -32,32 +19,35 @@
 | 960 | 3.70 | 0.02 | 3.67 |
 | 3000 | 3.83 | 0.03 | 3.80 |
 | 6000 | 3.87 | 0.01 | 3.83 |
-1A, T=120, R=2000: ML -86.99±0.88 (-85.72), MP 2.10±0.06 (2.11), KZ -2.38±0.11 (-2.15), CML 1.84±0.09 (1.68), PJ -13.55±0.27 (-12.85).
 
-## Решение команды 18.11
-Точных формул CKZ/CPJ нет, F3alpha (2B, 4, 5) не считаем. CKZ и CPJ построены по логике авторов (docs/decisions_part2.csv, P2-06, P2-07).
+At T = 120 and R = 2,000, the Table 1A estimates (published benchmarks in parentheses) were ML −86.99 ± 0.88 (−85.72), MP 2.10 ± 0.06 (2.11), KZ −2.38 ± 0.11 (−2.15), CML 1.84 ± 0.09 (1.68), and PJ −13.55 ± 0.27 (−12.85).
 
-## Предварительный прогон, R=1000 на ячейку (results/prelim_R1000)
-300 ячеек 1A, 1B, 2A, 3A, 3B: match 77, mc_compatible 131, open 92.
-- ML, PJ, KZ, CML: совпадают почти везде (например 1A ML T=120 -86.92 против -85.72 при MCSE около 0.9).
-- MP при больших T выше на 0.05-0.2 (3A SR предел 13.99 против 13.89): предел MP зависит от вектора sigma, который у авторов неизвестен.
-- CPJ: близко при T<=960 в 1A; в PDF немонотонные значения (1B T=3000 7.46, 2A T=960 3.92), наша версия гладкая.
-- CMP: близко в 1A/2A/3A/3B, в 1B T=120 5.48 против 6.57.
-- CKZ: при T=120 ниже PDF (1A 1.26 против 3.71), сходится при T>=960. Причина в P2-06.
+## Team decision on 18 November
 
-## Полный прогон, R=10 000 на ячейку (results/sim_full), 18.11, 2 CPU, 8344 с
-Первые 1000 повторов каждой ячейки из предварительного прогона (те же seeds по (scenario,T,rep), блоки совпадают по имени).
-300 ячеек: match 88, mc_compatible 79, open 133 (порог 0.005 + 3 MCSE; при R=10 000 он узкий).
-- True, EW: 60/60 match. ML 29/30 и KZ 27/30 в пределах MC, PJ 24/30.
-- CML, MP, CMP: систематические сдвиги 0.03-0.25 п.п., при больших T отражают неизвестный вектор sigma авторов (предел MP 3A 13.99 против 13.89).
-- CPJ: близко при T<=960 в 1A/1B/2A, немонотонные значения PDF при больших T не воспроизводятся.
-- CKZ: при T=120 ниже PDF (1A 1.38 против 3.71), сходится при T>=960 (P2-06).
-Не посчитано: F3alpha (2B, 4, 5) по решению команды.
+At that stage the team used working reconstructions of CKZ and CPJ and deferred the F3alpha simulations for Tables 2B, 4, and 5. [Part 2 decision log, P2-06 and P2-07](decisions_part2.csv) · [Later CKZ audit](../EXTENSIONS.md#inherited-code-audit).
 
-## Сноски 8-9, sensitivity, R=1000 на ячейку (results/footnotes89)
-DGP авторов для этих случаев не опубликован, обе спецификации наши (P2-08), gamma=3.
-- Aa_N50: 49 активов + фактор, alpha как в 2A. True U 7.76, EW 4.03. Все четыре смеси лучше своего компонента
-  при всех T (кроме CMP против MP при T>=240), лучше 1/N с T=480 (CMP с T=3000). Качественный вывод сноски 8 подтверждается.
-- NF: без общего фактора, mu = alpha + 0.08/12, Sigma = D. 1/N далеко от оптимума (True U 99.4, EW 7.7, SR True 70.5 против EW 53.6),
-  CML/CPJ/CKZ обгоняют 1/N уже при T=120. CKZ почти совпадает с KZ (delta около 1). MP/CMP плохи: модель MP здесь неверно специфицирована.
-  Сноска 9: SR для NF в footnote89_summary.csv.
+## Preliminary run with 1,000 replications per cell
+
+Of 300 cells across Tables 1A, 1B, 2A, 3A, and 3B, 77 matched, 131 were Monte Carlo compatible, and 92 remained open. [Preliminary results](../results/prelim_R1000/tables1_3_comparison.csv).
+
+- ML, PJ, KZ, and CML were generally close. For example, Table 1A ML at T = 120 was −86.92 versus −85.72, with an MCSE of about 0.9.
+- MP ran 0.05–0.20 higher at large T. The limiting Table 3A Sharpe ratio was 13.99 versus 13.89. The MP limit depends on the authors’ unknown sigma vector.
+- CPJ was close in Table 1A at T ≤ 960. The paper has nonmonotone values, including 7.46 in 1B at T = 3,000 and 3.92 in 2A at T = 960, whereas the replication results were smooth.
+- CMP was close in Tables 1A, 2A, 3A, and 3B. In 1B at T = 120, it was 5.48 versus 6.57.
+- CKZ was lower at T = 120, with 1.26 versus 3.71 in Table 1A. The values draw closer at T ≥ 960. See P2-06.
+
+## Full run with 10,000 replications per cell
+
+The 18 November run took 8,344 seconds on two CPUs. The first 1,000 replications in each cell share the preliminary seeds indexed by scenario, T, and replication, and use matching chunk names. Of 300 cells, 88 matched, 79 were Monte Carlo compatible, and 133 remained open. The compatibility threshold is 0.005 + 3 MCSE, which is narrow at R = 10,000. [Full results](../results/sim_full/tables1_3_comparison.csv).
+
+- True and EW matched in 60/60 cells. ML was within Monte Carlo tolerance in 29/30, KZ in 27/30, and PJ in 24/30.
+- CML, MP, and CMP showed systematic differences of 0.03–0.25 percentage points. At large T this reflects the unknown sigma vector used by the authors. The limiting Table 3A MP Sharpe ratio was 13.99 versus 13.89.
+- CPJ was close at T ≤ 960 in Tables 1A, 1B, and 2A. The replication did not recover the paper’s nonmonotone large-T results.
+- CKZ was lower at T = 120, with 1.38 versus 3.71 in Table 1A. The values draw closer at T ≥ 960. See P2-06.
+
+## Footnotes 8–9 sensitivity checks with 1,000 replications per cell
+
+The authors’ DGPs for these cases are unpublished. Both specifications are project choices, documented in P2-08, with gamma = 3. [Paired sensitivity results](../results/footnotes89/footnote89_paired.csv).
+
+- **Aa_N50.** There are 49 assets plus the factor, with alpha as in Table 2A. True utility is 7.76 and EW is 4.03. The four mixtures improve on their components at every T except CMP versus MP at T ≥ 240. They beat 1/N starting at T = 480 for CML, CPJ, and CKZ, and T = 3,000 for CMP. This supports the qualitative conclusion in footnote 8.
+- **NF.** There is no common factor, mu = alpha + 0.08/12, and Sigma = D. True versus EW utility is 99.4 versus 7.7, and the corresponding Sharpe figures are 70.5 versus 53.6. CML, CPJ, and CKZ beat 1/N from T = 120. CKZ is close to KZ, with delta near 1. MP and CMP perform poorly because the MP model is misspecified in this scenario. The NF Sharpe results for footnote 9 are in `footnote89_summary.csv`.

@@ -1,0 +1,7 @@
+[stability]
+cost_bps = [0, 25]
+
+[bootstrap]
+replicates = 2000
+block_months = 12
+seed = 201104

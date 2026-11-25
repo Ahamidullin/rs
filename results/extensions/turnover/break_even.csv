@@ -1,0 +1,9 @@
+dataset,window,control,lower_bps,upper_bps,run_id
+factors3,120,ckz,25,50,aad093ed9437441c
+factors3,120,kz,25,50,aad093ed9437441c
+ff21,240,ckz,0,10,aad093ed9437441c
+ff21,240,ckz,25,50,aad093ed9437441c
+ff21,240,kz,0,10,aad093ed9437441c
+ff21,240,kz,25,50,aad093ed9437441c
+industry52,240,ckz,10,25,aad093ed9437441c
+international9,240,ckz,0,10,aad093ed9437441c
