@@ -4,6 +4,9 @@ import numpy as np
 from scipy.special import betainc, betaln
 from . import mp as _mp
 
+
+CKZ_MODES = ("legacy_adjusted", "unscaled_plugin", "eq13_scaled")
+
 def suff(X):
     T, N = X.shape
     m = X.mean(0)
@@ -44,7 +47,8 @@ def _delta_from_ABC(A, C, B):
 def fit_rules(X, gamma, options=None):
     """Returns dict(weights={rule: w}, delta_raw={}, delta={}, diagnostics={})."""
     opt = dict(rules=("ew", "ml", "pj", "mp", "kz", "cml", "cpj", "cmp", "ckz"),
-               cmp50=False, ckz_moments="adj", cpj_moments="adj", cmp_mode="jk")
+               cmp50=False, ckz_moments="adj", cpj_moments="adj", cmp_mode="jk",
+               ckz_mode="legacy_adjusted")
     if options: opt.update(options)
     rules = set(opt["rules"])
     T, N, m, S0 = suff(X)
@@ -91,13 +95,23 @@ def fit_rules(X, gamma, options=None):
                 th = ((T - N - 2.0) * theta2_hat - N) / T
                 ps = ((T - N - 1.0) * psi2_hat - (N - 1.0)) / T
             pi1c = e @ S0 @ e - 2.0 * (e @ m) / gamma + th / gamma ** 2
-            # E[vKZ] ~ Sigma^{-1} q/(gamma c1);  mu'Sigma^{-1}q = theta^2 - (1-eta) psi^2 (exact identity)
-            pi13 = th / gamma ** 2 - (e @ m) / gamma + (e @ q) / (gamma * c1) - (th - (1.0 - eta) * ps) / (gamma ** 2 * c1)
+            mode = opt["ckz_mode"]
+            if mode == "legacy_adjusted":
+                cross = th - (1.0 - eta) * ps
+            elif mode == "unscaled_plugin":
+                cross = m @ S0inv_q
+            elif mode == "eq13_scaled":
+                # Eq. (13) uses the inverse of the scaled covariance in Eq. (4).
+                cross = (T - N - 2.0) / T * (m @ S0inv_q)
+            else:
+                raise ValueError(f"Unknown CKZ mode: {mode!r}; expected one of {CKZ_MODES}")
+            pi13 = th / gamma**2 - (e @ m) / gamma + (e @ q) / (gamma * c1) - cross / (gamma**2 * c1)
             pi3 = th / gamma ** 2 - (th - N * eta / T) / (gamma ** 2 * c1)   # KZ (2007) form
             raw, dl, fl = _delta_from_ABC(pi1c, pi13, pi3)
             DR["ckz"] = raw; D["ckz"] = dl
             W["ckz"] = combine(e, vkz, dl)
-            diag.update(ckz_pi1=pi1c, ckz_pi13=pi13, ckz_pi3=pi3, ckz_flag=fl)
+            diag.update(ckz_pi1=pi1c, ckz_pi13=pi13, ckz_pi3=pi3, ckz_flag=fl,
+                        ckz_mode=mode, ckz_cross=cross)
     # ---- Jorion PJ (15)-(16), App. B
     if rules & {"pj", "cpj"}:
         St = T / (T - N - 2.0) * S0

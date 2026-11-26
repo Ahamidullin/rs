@@ -6,7 +6,7 @@
 | --- | --- |
 | 1. Статья и защита | [Слайды](defense/slides.pdf) · [сценарий](defense/outline.md) |
 | 2. Методы и симуляции | [Код и запуск](RUN_part2.md) · [статус](docs/part2_status.md) · [основной прогон](results/sim_full/tables1_3_comparison.csv) · [сноски 8–9](results/footnotes89/footnote89_paired.csv) |
-| 3. Эмпирическая репликация | [Слайды части 3](defense/part3_slides.pdf) · [текст выступления](defense/part3_talk.md) · [таблица 6](results/replication/table6.csv) · [данные и расхождения](docs/data.md) |
+| 3. Эмпирическая репликация | [Слайды части 3](defense/part3_slides.pdf) · [текст выступления](defense/part3_talk.md) · [таблица 6](results/replication/table6.csv) · [данные и расхождения](docs/data.md) · [ответ на ревью и комплект для части 4](docs/part3_review.md) |
 | Командные материалы | [План проекта и форматы](docs/team/README.md) |
 
 ## Воспроизведение таблицы 6
@@ -28,3 +28,5 @@ python -m replication.presentation
 ```
 
 Полный прогон сравнивает 140 ячеек таблицы 6 с публикацией. Совпадения отмечены с допуском 0,005 п.п. Помесячные доходности, веса и подготовленные панели восстанавливаются локально. В [манифесте](results/replication/empirical_manifest.json) указаны версии архивов, хеши и интервалы.
+
+Для расширений используйте один полный запуск в `results/replication` с режимом `eq13_scaled`. Команда `python -m replication.empirical_diagnostics --verify-only` проверяет комплект перед использованием. [Режимы CKZ и команды проверки](docs/part3_review.md).

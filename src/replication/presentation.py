@@ -88,8 +88,11 @@ def empirical_design():
 
 
 def empirical_plot(pivot):
-    fig = page("CKZ выигрывает у 1/N в 10 из 14 случаев", "ЧАСТЬ 3 · ТАБЛИЦА 6",
-               "Tu и Zhou (2011), табл. 6A/B. В опубликованных данных 11 из 14 случаев.")
+    actual = int((pivot["computed"].ckz > pivot["computed"].ew).sum())
+    published = int((pivot["published"].ckz > pivot["published"].ew).sum())
+    cases = len(pivot)
+    fig = page(f"CKZ выигрывает у 1/N в {actual} из {cases} случаев", "ЧАСТЬ 3 · ТАБЛИЦА 6",
+               f"Tu и Zhou (2011), табл. 6A/B. В статье CKZ выше 1/N в {published} из {cases} случаев.")
     label(fig, 0.065, 0.744, "Разница CER между CKZ и 1/N, годовые п.п.", 21, MUTED)
     chart(fig, pivot)
     return fig
@@ -107,8 +110,8 @@ def chart(fig, pivot):
         ax.axhline(0, color=MUTED, linewidth=1)
         ax.set_xticks(x, LABELS, fontsize=11)
         ax.set_title(f"M = {window} месяцев", loc="left", pad=12, fontsize=19, color=INK, weight="bold")
-        ax.set_ylim(-16.5, 27)
-        ax.set_yticks([-15, -10, -5, 0, 5, 10, 15, 20, 25])
+        ax.set_ylim(-8, 27)
+        ax.set_yticks([-5, 0, 5, 10, 15, 20, 25])
         ax.tick_params(axis="both", length=0, labelcolor=MUTED, pad=7)
         ax.set_facecolor(BG)
         ax.grid(axis="y", color="#DDE6EE")
@@ -127,7 +130,7 @@ def empirical_limits(matches, total):
     label(fig, 0.065, 0.465, f"Совпадение с округлением в {matches} из {total} ячеек.", 24, weight="bold")
     label(fig, 0.065, 0.321, "DGU · 10 из 10 совпадений для 1/N, 8 из 10 для rolling ML.\n"
           "French · два набора на FIZ 202412, исходные версии не найдены.", 21)
-    label(fig, 0.065, 0.19, "Реализации CKZ и CPJ содержат допущения части 2.\n"
+    label(fig, 0.065, 0.19, "CKZ пересчитан по формуле (13). Для CPJ сохраняется приближение.\n"
           "Проверены смена версий данных, интервалы и вариант CMP с jackknife.", 21)
     return fig
 

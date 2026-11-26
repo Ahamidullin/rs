@@ -65,3 +65,42 @@ def test_deltas_in_unit_interval():
     f = fit_rules(X, 3)
     for k, v in f["delta"].items():
         assert 0 <= v <= 1
+
+
+def test_ckz_eq13_uses_scaled_sample_covariance():
+    X, gamma = _sample(seed=7), 3.0
+    M, N = X.shape
+    e = np.ones(N) / N
+    m, S0 = X.mean(axis=0), np.cov(X, rowvar=False, ddof=0)
+    inverse_mean, inverse_one = np.linalg.solve(S0, np.column_stack((m, np.ones(N)))).T
+    g = (e @ inverse_mean) / (e @ inverse_one)
+    a = m - g
+    theta = kz_adjust(m @ inverse_mean, N, M)
+    psi = kz_adjust(a @ np.linalg.solve(S0, a), N - 1, M)
+    eta = psi / (psi + N / M)
+    q = eta * m + (1 - eta) * g
+    c1 = (M - 2) * (M - N - 2) / ((M - N - 1) * (M - N - 4))
+    scaled_cov = S0 * M / (M - N - 2)
+    scaled_q = np.linalg.solve(scaled_cov, q)
+    cross = m @ scaled_q
+    pi13 = theta / gamma**2 - e @ m / gamma + (e @ q - cross / gamma) / (gamma * c1)
+    pi1 = e @ S0 @ e - 2 * e @ m / gamma + theta / gamma**2
+    pi3 = theta / gamma**2 - (theta - N / M * eta) / (gamma**2 * c1)
+    denominator = pi1 - 2 * pi13 + pi3
+    raw = (pi1 - pi13) / denominator
+    delta = np.clip(raw, 0, 1) if denominator > 0 else float(pi1 > pi3)
+    kz = scaled_q / (gamma * c1)
+
+    fit = fit_rules(X, gamma, {"rules": ("kz", "ckz"), "ckz_mode": "eq13_scaled"})
+    diagnostic = fit_rules(X, gamma, {"rules": ("kz", "ckz"), "ckz_mode": "unscaled_plugin"})
+    previous = fit_rules(X, gamma, {"rules": ("kz", "ckz")})
+
+    assert fit["diagnostics"]["ckz_pi13"] == pytest.approx(pi13, abs=1e-14)
+    assert fit["delta_raw"]["ckz"] == pytest.approx(raw, abs=1e-12)
+    assert fit["delta"]["ckz"] == pytest.approx(delta, abs=1e-12)
+    np.testing.assert_allclose(fit["weights"]["ckz"], (1 - delta) * e + delta * kz)
+    np.testing.assert_allclose(fit["weights"]["kz"], kz)
+    np.testing.assert_array_equal(fit["weights"]["kz"], previous["weights"]["kz"])
+    np.testing.assert_array_equal(fit["weights"]["kz"], diagnostic["weights"]["kz"])
+    assert abs(diagnostic["diagnostics"]["ckz_pi13"] - pi13) > 1e-5
+    assert abs(previous["diagnostics"]["ckz_pi13"] - pi13) > 1e-5

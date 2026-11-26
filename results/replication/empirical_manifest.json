@@ -1,6 +1,7 @@
 {
   "mode": "full",
   "gamma": 3,
+  "ckz_mode": "eq13_scaled",
   "windows": [
     120,
     240
@@ -8,9 +9,9 @@
   "config_sha256": "8eadabd86fd8bd3af64a2f5f90d6592864b72b71f5c3357267206ddf17dfcdeb",
   "reference_sha256": "5a9adf637daef3b84200e38c225d3e062a7b04ac47a3bec806bbe61ef4b9ff24",
   "code_sha256": {
-    "backtest.py": "2f09b9c1ed76c77def66c6fba73beab79bd5088eca61292bd48b2cb77526d6e3",
+    "backtest.py": "dd870915ccf65994c8e11b1d6ba629630b785ecc9246e0725364d4952b4b167f",
     "data.py": "f4584989ce334f2e4610051ba24f01af72868a89468a9a03e302c9d6a2b24862",
-    "methods.py": "b6a9b5f796d01f02b89c6f089be56613d2799ae06ef2d5ef6d3d4c55b99648b7",
+    "methods.py": "0627713e3cd34cc61fa31538e9c6e4d4101932c40b072a2bcfae0cf6c6388887",
     "mp.py": "8fb414ef6841a61e53351d65824a6d8f6d463a7db5347dc88fbe311cf2286bbd",
     "metrics.py": "ee6ee86c23cd597239486ba54527117eb515a6585cd752b150462ff5808368b6"
   },
@@ -3427,10 +3428,12 @@
       "parquet_sha256": "1913f2eac7a2fbad03e88e1ffb011cf33ff21bf2afda2b1b79776ed1c4b14d26"
     }
   },
-  "run_id": "78841781ffa7d107",
+  "run_id": "07ded1e559fe42d2",
+  "processed_path": "data/processed",
   "cer": "1200 * (mean(excess) - gamma/2 * var(excess, ddof=1))",
   "ml_is_cov_ddof": 0,
   "published_cmp_uses": "cmp50",
+  "diagnostic_cmp_uses": "cmp",
   "monthly_rows": 58660,
   "position_rows": 1311660,
   "comparison_cells": 140,
@@ -3450,8 +3453,14 @@
     "international9/120": 259,
     "international9/240": 139
   },
+  "output_sha256": {
+    "empirical_checks.csv": "ed24bcea58721d9b922d7e518c5aef02ac9e0bf0df95a759887c39130f18a79f",
+    "monthly_returns.parquet": "a6d2d49feccdcab26a3dc97e5f1d412315355d83c6f68f7fd46473fb7b5e9479",
+    "table6.csv": "e6983aecd80d9ad238a784bde5420b8112dcb9e8a48a577c717314b7814286cf",
+    "weights.parquet": "853069d97a91f9967d0335925fa6fccbb495f8249629e082175ead01b19f1095"
+  },
   "parquet_sha256": {
-    "monthly_returns.parquet": "6f1502df5185eaa66429c583dc987cbd3737c7efb170e60b8b500762ce4c730d",
-    "weights.parquet": "f3bef543888c9d73a387797273943de2f7a1b3e1fe2f0582be3f10aef5866f69"
+    "monthly_returns.parquet": "a6d2d49feccdcab26a3dc97e5f1d412315355d83c6f68f7fd46473fb7b5e9479",
+    "weights.parquet": "853069d97a91f9967d0335925fa6fccbb495f8249629e082175ead01b19f1095"
   }
 }

@@ -5,15 +5,17 @@ from importlib.metadata import version
 import json
 from pathlib import Path
 import platform
+from tempfile import TemporaryDirectory
 
 import numpy as np
 import pandas as pd
 
 from .data import checksum, json_write, load_config
-from .methods import combine, fit_rules, suff
+from .methods import CKZ_MODES, combine, fit_rules, suff
 from .metrics import cer
 
 
+EMPIRICAL_CKZ_MODE = "eq13_scaled"
 BASE_RULES = ("ew", "ml", "pj", "mp", "kz", "cml", "cpj", "cmp", "ckz")
 PAIRS = {
     "cml": "ml", "cpj": "pj", "cmp50": "mp", "ckz": "kz",
@@ -48,7 +50,8 @@ def rolling_backtest(panel, M, gamma, policy=None, *, dataset="", run_id="",
         raise ValueError("Require 0 < M < T and positive finite gamma")
 
     assets = [name.removeprefix("asset_") for name in cols] + ["CASH"]
-    opts = {"rules": BASE_RULES, "cmp50": True, **(options or {})}
+    opts = {"rules": BASE_RULES, "cmp50": True, "ckz_mode": EMPIRICAL_CKZ_MODE,
+            **(options or {})}
     monthly, weights = [], []
     state = {}
     end = len(X) if stop_after is None else min(len(X), M + stop_after)
@@ -121,11 +124,28 @@ def compare(reference, monthly, panel, info, gamma, window, run_id):
     return rows, checks
 
 
+def dataset_identity(datasets):
+    """Use sources and content hashes, independent of when archives were downloaded."""
+    return {
+        dataset: {
+            **info,
+            "sources": [
+                {key: value for key, value in source.items() if key != "downloaded_at_utc"}
+                for source in info["sources"]
+            ],
+        }
+        for dataset, info in datasets.items()
+    }
+
+
 def run(args):
     config = load_config(args.config)
     gamma = config["gamma"]
     out = args.out
     out.mkdir(parents=True, exist_ok=True)
+    prior_manifest = out / "empirical_manifest.json"
+    if prior_manifest.exists() and json.loads(prior_manifest.read_text())["mode"] != args.mode:
+        raise ValueError(f"{out}: choose separate directories for smoke and full runs")
     source = json.loads((args.processed / "empirical_data_manifest.json").read_text())
     reference = pd.read_csv(args.reference, dtype={"table": str})
     key = ["case", "rule", "panel"]
@@ -138,6 +158,7 @@ def run(args):
     identity = {
         "mode": args.mode,
         "gamma": gamma,
+        "ckz_mode": args.ckz_mode,
         "windows": config["windows"],
         "config_sha256": checksum(args.config),
         "reference_sha256": checksum(args.reference),
@@ -145,7 +166,7 @@ def run(args):
         "packages": {name: version(name) for name in ("numpy", "scipy", "pandas", "pyarrow")},
         "python": platform.python_version(),
         "units": source["units"],
-        "datasets": source["datasets"],
+        "datasets": dataset_identity(source["datasets"]),
     }
     run_id = sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()[:16]
     traces, targets, rows, checks = [], [], [], []
@@ -158,6 +179,7 @@ def run(args):
             print(f"{dataset} M={window}: fitting", flush=True)
             monthly, weights = rolling_backtest(
                 panel, window, gamma, dataset=dataset, run_id=run_id,
+                options={"ckz_mode": args.ckz_mode},
                 stop_after=2 if args.mode == "smoke" else None,
             )
             traces.append(monthly)
@@ -176,26 +198,35 @@ def run(args):
     totals = positions.groupby(trade_key).weight.sum()
     if len(totals) != len(returns) or not np.allclose(totals, 1.0):
         raise RuntimeError("Missing targets or portfolio weights do not sum to 1 with cash")
-    returns.to_parquet(out / "monthly_returns.parquet", index=False)
-    positions.to_parquet(out / "weights.parquet", index=False)
-    if args.mode == "full":
-        if len(rows) != len(reference):
-            raise RuntimeError("Full run did not produce every reference cell")
-        pd.DataFrame(rows).to_csv(out / "table6.csv", index=False)
-        pd.DataFrame(checks, columns=["dataset", "window", "check", "rule", "benchmark",
-                                     "cer_pp", "benchmark_cer_pp", "delta_pp", "run_id"]).to_csv(
-            out / "empirical_checks.csv", index=False)
-    manifest = {
-        **identity, "run_id": run_id, "cer": "1200 * (mean(excess) - gamma/2 * var(excess, ddof=1))",
-        "ml_is_cov_ddof": 0, "published_cmp_uses": "cmp50",
-        "monthly_rows": len(returns), "position_rows": len(positions),
-        "comparison_cells": len(rows),
-        "oos_months": {f"{d}/{w}": int(group.realized_month.nunique())
-                       for (d, w), group in returns.groupby(["dataset", "window"])},
-        "parquet_sha256": {name: checksum(out / name)
-                           for name in ("monthly_returns.parquet", "weights.parquet")},
-    }
-    json_write(out / "empirical_manifest.json", manifest)
+    if args.mode == "full" and len(rows) != len(reference):
+        raise RuntimeError("Full run did not produce every reference cell")
+    with TemporaryDirectory(dir=out, prefix=".empirical-") as scratch:
+        staged = Path(scratch)
+        returns.to_parquet(staged / "monthly_returns.parquet", index=False)
+        positions.to_parquet(staged / "weights.parquet", index=False)
+        if args.mode == "full":
+            pd.DataFrame(rows).to_csv(staged / "table6.csv", index=False)
+            pd.DataFrame(checks, columns=["dataset", "window", "check", "rule", "benchmark",
+                                         "cer_pp", "benchmark_cer_pp", "delta_pp", "run_id"]).to_csv(
+                staged / "empirical_checks.csv", index=False)
+        output_hashes = {path.name: checksum(path) for path in sorted(staged.iterdir())}
+        manifest = {
+            **identity, "datasets": source["datasets"], "run_id": run_id,
+            "processed_path": str(args.processed),
+            "cer": "1200 * (mean(excess) - gamma/2 * var(excess, ddof=1))",
+            "ml_is_cov_ddof": 0, "published_cmp_uses": "cmp50", "diagnostic_cmp_uses": "cmp",
+            "monthly_rows": len(returns), "position_rows": len(positions),
+            "comparison_cells": len(rows),
+            "oos_months": {f"{d}/{w}": int(group.realized_month.nunique())
+                           for (d, w), group in returns.groupby(["dataset", "window"])},
+            "output_sha256": output_hashes,
+            "parquet_sha256": {name: digest for name, digest in output_hashes.items()
+                               if name.endswith(".parquet")},
+        }
+        json_write(staged / prior_manifest.name, manifest)
+        for name in output_hashes:
+            (staged / name).replace(out / name)
+        (staged / prior_manifest.name).replace(prior_manifest)
 
 
 def main():
@@ -204,6 +235,8 @@ def main():
     parser.add_argument("--processed", type=Path, default=Path("data/processed"))
     parser.add_argument("--reference", type=Path, default=Path("references/table6.csv"))
     parser.add_argument("--mode", choices=("smoke", "full"), required=True)
+    parser.add_argument("--ckz-mode", choices=CKZ_MODES, default=EMPIRICAL_CKZ_MODE,
+                        help="CKZ cross-term convention (default: %(default)s)")
     parser.add_argument("--out", type=Path, required=True)
     run(parser.parse_args())
 
