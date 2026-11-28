@@ -1,0 +1,21 @@
+{
+  "inputs_sha256": {
+    "results/article/simulation/tables1_5_comparison.csv": "0b17503223a8e7c750568687c8de1ec3324a238057d280d18c75f1e99e2a6518",
+    "results/article/empirical/table6.csv": "3524dbaf1f581e864dec189c61af95453d9579a0d4b34ce81c300e3aa9dea51f",
+    "results/summary.csv": "a30583a619d64651688d0e4de558515f252ac4cb79c87566014e24cdcb64b3bd",
+    "results/extensions/dimension_window/aggregate.csv": "4f78c8dd64ec6c4b64204b8993d12d28a9bf1d0c55e44d341aebc23f5150cbc3"
+  },
+  "renderer": "3.11.2",
+  "code_sha256": "4dd00a1b6587ea498e9749789c2c9cfc62d82dabce3d7695a06c28a54090e348",
+  "outputs_sha256": {
+    "01_simulation.png": "bb2f78a807da2c5c0fe82b948af1e33cc097b2a00ce647a2fcd650b5609c423a",
+    "02_empirical_gap.png": "988d83931f7a1e1bb121330f8741529df6abb4768f24dcde2fd68753f80e5850",
+    "all_model_heatmaps.png": "d4a498971861e5896e7b7c8ab21c38d4d8456eeb2b3c55a28dfbeb51de51de75",
+    "dimension_window_all_models.png": "e2a6111f37b17499331e3d02fab0dfd9223ebe844e8fe1d502c2d453cff377af",
+    "dimension_window_all_models.svg": "1c527a3ba9beffde974c9c39abb5d4002f32102e0f1dca390ee7db94cbce4ce0",
+    "markets_all_models.png": "92a463da062deac8c8d70807e4a73ebc1c6b6785e5401d151e71c727ab78f3c5",
+    "markets_all_models.svg": "446c77378837e0f39b703b17bda2aa7cbc6c4242d2265c3c9ac3a2078d666eb8",
+    "regularization_all_models.png": "6765941625452abadb3ff9042e5bd050464d86175ef41d8cd076ab0a664de2c4",
+    "regularization_all_models.svg": "cbece2577d838ef81ee57c9c648ef738ec673ec7a572c940ba5129d3deb3a5dc"
+  }
+}

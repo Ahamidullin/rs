@@ -1,0 +1,193 @@
+{
+  "status": "complete",
+  "experiment": "markets",
+  "specification": {
+    "history_start": "1992-01",
+    "test_start": "2012-01",
+    "test_end": "2024-12",
+    "gamma": 3.0,
+    "windows": [
+      120,
+      240
+    ],
+    "grid_windows": [
+      60,
+      120,
+      240
+    ],
+    "grid_dimensions": [
+      10,
+      25,
+      49
+    ],
+    "subset_seeds": [
+      201104,
+      201105,
+      201106,
+      201107,
+      201108
+    ],
+    "cost_bps": [
+      0,
+      25
+    ],
+    "primary_cost_bps": 25,
+    "bootstrap_replicates": 2000,
+    "bootstrap_block": 12,
+    "bootstrap_seed": 201104,
+    "periods": [
+      [
+        "2012-2015",
+        "2012-01",
+        "2015-12"
+      ],
+      [
+        "2016-2019",
+        "2016-01",
+        "2019-12"
+      ],
+      [
+        "2020-2024",
+        "2020-01",
+        "2024-12"
+      ]
+    ],
+    "ckz_mode": "eq13_scaled",
+    "weighting": "value",
+    "currency": "USD",
+    "original_rules": [
+      "ew",
+      "ml",
+      "pj",
+      "mp",
+      "kz",
+      "cml",
+      "cpj",
+      "cmp",
+      "ckz",
+      "cmp50"
+    ],
+    "regularized_rules": [
+      "ml",
+      "pj",
+      "mp",
+      "kz",
+      "cml",
+      "cpj",
+      "cmp",
+      "ckz",
+      "cmp50"
+    ],
+    "cmp_mode": "jk",
+    "cmp50": 0.5,
+    "primary_comparison": "each regularized rule minus its own unmodified rule at 25 bps",
+    "secondary_comparison": "every rule minus EW",
+    "covariance_protocol": "freeze component signal and original combination delta; shrink model-specific risk matrix"
+  },
+  "backend": {
+    "device": "cuda",
+    "dtype": "float64",
+    "cupy": "14.2.0",
+    "gpu": "NVIDIA GeForce RTX 3070",
+    "memory_bytes": 8589410304,
+    "cuda_runtime": 12090,
+    "cuda_driver": 13040
+  },
+  "packages": {
+    "numpy": "2.5.5",
+    "scipy": "1.18.1",
+    "pandas": "3.1.1",
+    "pyarrow": "26.0.1",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2"
+  },
+  "code_sha256": {
+    "all_model_studies.py": "fdada6c61eb90718109d4a2b91a5e4428b897768b8744d68ccd6e15411980d76",
+    "robustness_studies.py": "768bceb3dd9658aa9c496f79f57a090913f4dce6ea602f9c8872643777d5c8e2",
+    "research_extensions.py": "716049bec69c2fa06963d001e624d1246e15ce4e78a7098e592f0ae3ba9a9de7",
+    "extensions.py": "76c6f526723888745d4b4413ac5efb33d56f1bd609748902633776904b2af9fc",
+    "methods.py": "866ec7d4a8d0dcdc1a09bfca66fc01ed29f1ff22dded598dd37317f616bbfe33",
+    "mp.py": "ef457d2b59d40e4d1a3f27e1cafbbc394855f04628902fea3363fd96ae36b386",
+    "backend.py": "1fd77345f3d5229b67b900b9df63f46082b329f92ba80816335b5dc8d3eced84",
+    "data.py": "b001dd7b1ae3d8b0bce3e5437e905f33bd4be84ea9f5bf37c38c427cf48ec887",
+    "metrics.py": "b5fbfa4d8fb377269d2e472389922e33d97f6ab0dd592a0cd8ffe69b0331832d"
+  },
+  "inputs": {
+    "sources": [
+      {
+        "archive": "F-F_Research_Data_Factors_CSV.zip",
+        "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp_202412/F-F_Research_Data_Factors_CSV.zip",
+        "member": "F-F_Research_Data_Factors.CSV",
+        "sha256": "fc9e41cc3b66c62fa8f565a01fb4c8c0d7962c777303c46b8ab7102190b98ea2",
+        "header": [
+          "Mkt-RF",
+          "SMB",
+          "HML",
+          "RF"
+        ],
+        "source_key": "ff3_fiz",
+        "vintage": "FIZ 202412",
+        "first_month": "1926-07",
+        "last_month": "2024-12",
+        "pin_sha256": "ad81441ebe0c9da6137dccf1c170cd9377cad5b35ea1efdac1577b678c087fb5"
+      },
+      {
+        "archive": "Developed_6_Portfolios_ME_BE-ME_CSV.zip",
+        "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/Developed_6_Portfolios_ME_BE-ME_CSV.zip",
+        "member": "Developed_6_Portfolios_ME_BE-ME.csv",
+        "sha256": "9939f10bb4d553b6df3bdc7db5e3b81a8661c00eecc3a33911c0ca46f3725100",
+        "downloaded_at_utc": "2026-11-27T22:22:11.006593+00:00",
+        "header": [
+          "SMALL LoBM",
+          "ME1 BM2",
+          "SMALL HiBM",
+          "BIG LoBM",
+          "ME2 BM2",
+          "BIG HiBM"
+        ],
+        "source_key": "developed6",
+        "vintage": "current international snapshot at first download",
+        "first_month": "1990-07",
+        "last_month": "2026-09",
+        "pin_sha256": "e012637ecb63e7cc951c1bff9bc72758c4d202c9af1a59a04e2dc2af96c255f8"
+      },
+      {
+        "archive": "Emerging_Markets_6_Portfolios_ME_BE-ME_CSV.zip",
+        "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/Emerging_Markets_6_Portfolios_ME_BE-ME_CSV.zip",
+        "member": "Emerging_Markets_6_Portfolios_ME_BE-ME.csv",
+        "sha256": "5e65ca2083509a3ddbf070181d0b56d546446818ee98cc8d4b05b468b3a74ade",
+        "downloaded_at_utc": "2026-11-27T22:22:11.901232+00:00",
+        "header": [
+          "SMALL LoBM",
+          "ME1 BM2",
+          "SMALL HiBM",
+          "BIG LoBM",
+          "ME2 BM2",
+          "BIG HiBM"
+        ],
+        "source_key": "emerging6",
+        "vintage": "current international snapshot at first download",
+        "first_month": "1989-07",
+        "last_month": "2026-09",
+        "pin_sha256": "bc964664515a745dfd7de9a81f685c7fb1eaedcb25937d4ae9dfd033551c0ba5"
+      }
+    ]
+  },
+  "processed_sha256": {
+    "developed6.parquet": "f72974443362f85210c88cb1069392a01fb4db335db1d198147ef93d1cb21316",
+    "emerging6.parquet": "bfbdec61327de39130e56f62a1caa2af63aa77fb5ce642328e5957ded70607f8"
+  },
+  "completed_cases": 4,
+  "elapsed_seconds": 28.59299999999348,
+  "output_sha256": {
+    "aggregate.csv": "cc20969c3fc19e14f8b3c326d5344f87ed62d446c3aefcaa26ef16b53bd4a1a0",
+    "cases.json": "5c74c397542cef1d6931740c4ebc90f6a4326259e4a618ae1d2823772356bd1f",
+    "diagnostics.csv": "e5cfb259b175815229dc75ed68644846830ac36198c8c079213ba0ace19a54f2",
+    "monthly.parquet": "ece0281e83eecb9c1201f8e5c702aee1beb91f072f70ba2fc7089ab3d1ec055c",
+    "report.md": "30d941a117441bf1ea7fcfc3f26aa909c96ff1d5d6cd55be4a0aa271064ab287",
+    "scores.csv": "9b90a44c96c428945fd828f873884403b4cac0492106c32fd33ed2a9f7c4456a",
+    "summary.csv": "e3fb9302fe76141ef8b65edc301ca10d0604201caff02ec79b7d885e95bef3df",
+    "processed/developed6.parquet": "f72974443362f85210c88cb1069392a01fb4db335db1d198147ef93d1cb21316",
+    "processed/emerging6.parquet": "bfbdec61327de39130e56f62a1caa2af63aa77fb5ce642328e5957ded70607f8"
+  }
+}

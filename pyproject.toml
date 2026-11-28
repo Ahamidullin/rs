@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "markowitz-meets-talmud-replication"
+version = "0.1.0"
+description = "Partial numerical replication of Tu and Zhou (2011), with three exploratory studies"
+readme = "README.md"
+requires-python = ">=3.12"
+dynamic = ["dependencies"]
+
+[project.optional-dependencies]
+studies = ["scikit-learn==1.9.1"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements-part3.lock"]}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

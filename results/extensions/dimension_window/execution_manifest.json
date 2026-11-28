@@ -1,0 +1,214 @@
+{
+  "status": "complete",
+  "experiment": "dimension_window",
+  "specification": {
+    "history_start": "1992-01",
+    "test_start": "2012-01",
+    "test_end": "2024-12",
+    "gamma": 3.0,
+    "windows": [
+      120,
+      240
+    ],
+    "grid_windows": [
+      60,
+      120,
+      240
+    ],
+    "grid_dimensions": [
+      10,
+      25,
+      49
+    ],
+    "subset_seeds": [
+      201104,
+      201105,
+      201106,
+      201107,
+      201108
+    ],
+    "cost_bps": [
+      0,
+      25
+    ],
+    "primary_cost_bps": 25,
+    "bootstrap_replicates": 2000,
+    "bootstrap_block": 12,
+    "bootstrap_seed": 201104,
+    "periods": [
+      [
+        "2012-2015",
+        "2012-01",
+        "2015-12"
+      ],
+      [
+        "2016-2019",
+        "2016-01",
+        "2019-12"
+      ],
+      [
+        "2020-2024",
+        "2020-01",
+        "2024-12"
+      ]
+    ],
+    "ckz_mode": "eq13_scaled",
+    "weighting": "value",
+    "currency": "USD",
+    "original_rules": [
+      "ew",
+      "ml",
+      "pj",
+      "mp",
+      "kz",
+      "cml",
+      "cpj",
+      "cmp",
+      "ckz",
+      "cmp50"
+    ],
+    "regularized_rules": [
+      "ml",
+      "pj",
+      "mp",
+      "kz",
+      "cml",
+      "cpj",
+      "cmp",
+      "ckz",
+      "cmp50"
+    ],
+    "cmp_mode": "jk",
+    "cmp50": 0.5,
+    "primary_comparison": "each regularized rule minus its own unmodified rule at 25 bps",
+    "secondary_comparison": "every rule minus EW",
+    "covariance_protocol": "freeze component signal and original combination delta; shrink model-specific risk matrix"
+  },
+  "backend": {
+    "device": "cuda",
+    "dtype": "float64",
+    "cupy": "14.2.0",
+    "gpu": "NVIDIA GeForce RTX 3070",
+    "memory_bytes": 8589410304,
+    "cuda_runtime": 12090,
+    "cuda_driver": 13040
+  },
+  "packages": {
+    "numpy": "2.5.5",
+    "scipy": "1.18.1",
+    "pandas": "3.1.1",
+    "pyarrow": "26.0.1",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2"
+  },
+  "code_sha256": {
+    "all_model_studies.py": "fdada6c61eb90718109d4a2b91a5e4428b897768b8744d68ccd6e15411980d76",
+    "robustness_studies.py": "768bceb3dd9658aa9c496f79f57a090913f4dce6ea602f9c8872643777d5c8e2",
+    "research_extensions.py": "716049bec69c2fa06963d001e624d1246e15ce4e78a7098e592f0ae3ba9a9de7",
+    "extensions.py": "76c6f526723888745d4b4413ac5efb33d56f1bd609748902633776904b2af9fc",
+    "methods.py": "866ec7d4a8d0dcdc1a09bfca66fc01ed29f1ff22dded598dd37317f616bbfe33",
+    "mp.py": "ef457d2b59d40e4d1a3f27e1cafbbc394855f04628902fea3363fd96ae36b386",
+    "backend.py": "1fd77345f3d5229b67b900b9df63f46082b329f92ba80816335b5dc8d3eced84",
+    "data.py": "b001dd7b1ae3d8b0bce3e5437e905f33bd4be84ea9f5bf37c38c427cf48ec887",
+    "metrics.py": "b5fbfa4d8fb377269d2e472389922e33d97f6ab0dd592a0cd8ffe69b0331832d"
+  },
+  "inputs": {
+    "sources": [
+      {
+        "archive": "F-F_Research_Data_Factors_CSV.zip",
+        "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp_202412/F-F_Research_Data_Factors_CSV.zip",
+        "member": "F-F_Research_Data_Factors.CSV",
+        "sha256": "fc9e41cc3b66c62fa8f565a01fb4c8c0d7962c777303c46b8ab7102190b98ea2",
+        "header": [
+          "Mkt-RF",
+          "SMB",
+          "HML",
+          "RF"
+        ],
+        "source_key": "ff3_fiz",
+        "vintage": "FIZ 202412",
+        "first_month": "1926-07",
+        "last_month": "2024-12",
+        "pin_sha256": "ad81441ebe0c9da6137dccf1c170cd9377cad5b35ea1efdac1577b678c087fb5"
+      },
+      {
+        "archive": "49_Industry_Portfolios_CSV.zip",
+        "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp_202412/49_Industry_Portfolios_CSV.zip",
+        "member": "49_Industry_Portfolios.CSV",
+        "sha256": "1226aa3764ac454bac9509e57a8cbe99882ef3009aa2d3d99f613d4fdcb1f796",
+        "header": [
+          "Agric",
+          "Food",
+          "Soda",
+          "Beer",
+          "Smoke",
+          "Toys",
+          "Fun",
+          "Books",
+          "Hshld",
+          "Clths",
+          "Hlth",
+          "MedEq",
+          "Drugs",
+          "Chems",
+          "Rubbr",
+          "Txtls",
+          "BldMt",
+          "Cnstr",
+          "Steel",
+          "FabPr",
+          "Mach",
+          "ElcEq",
+          "Autos",
+          "Aero",
+          "Ships",
+          "Guns",
+          "Gold",
+          "Mines",
+          "Coal",
+          "Oil",
+          "Util",
+          "Telcm",
+          "PerSv",
+          "BusSv",
+          "Hardw",
+          "Softw",
+          "Chips",
+          "LabEq",
+          "Paper",
+          "Boxes",
+          "Trans",
+          "Whlsl",
+          "Rtail",
+          "Meals",
+          "Banks",
+          "Insur",
+          "RlEst",
+          "Fin",
+          "Other"
+        ],
+        "source_key": "industry49",
+        "vintage": "FIZ 202412",
+        "first_month": "1926-07",
+        "last_month": "2024-12",
+        "pin_sha256": "9202b44008dfa3f5459e7b873e89b753ad04827f95125b0d761465c779a9a1a2"
+      }
+    ]
+  },
+  "processed_sha256": {
+    "industry49.parquet": "f48fa1a3e2bf9c534e98c78833b6f0aee671c1d82d9e15e16978f874a59bdacb"
+  },
+  "completed_cases": 33,
+  "elapsed_seconds": 322.469000000041,
+  "output_sha256": {
+    "aggregate.csv": "4f78c8dd64ec6c4b64204b8993d12d28a9bf1d0c55e44d341aebc23f5150cbc3",
+    "all_model_heatmaps.png": "6635ea92ee88473ab511b4d986cc47b6b491bcf570363ecc23d5e96b5ba48c4a",
+    "cases.json": "03b34c37b97c8a8411f178694ce254ee8ca6df90c47f2dd4ac2dcac72974d1ed",
+    "diagnostics.csv": "f8984189ddb6ba96834dc81e8894bc7ca1857f6e7028b513dc740789529a5877",
+    "monthly.parquet": "43cddc855a6ef4efdc8a5f8dde59bac4658fa7056b015ad4c1e77acb52ade1e5",
+    "report.md": "388bfd3a3362018876cecde84767f68f10ce5f9bd300a382e687ddc671864e48",
+    "scores.csv": "aff1f36e0ac295cd158d14e7fbddb1852faf3fcbdd4db1b7c0d1d822a99a42c1",
+    "summary.csv": "453021de0c686abc05410b50086f01488aca414e283bc95af7e3a31304f9858d",
+    "processed/industry49.parquet": "f48fa1a3e2bf9c534e98c78833b6f0aee671c1d82d9e15e16978f874a59bdacb"
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "status": "complete",
+  "experiment": "regularization",
+  "specification": {
+    "history_start": "1992-01",
+    "test_start": "2012-01",
+    "test_end": "2024-12",
+    "gamma": 3.0,
+    "windows": [
+      120,
+      240
+    ],
+    "grid_windows": [
+      60,
+      120,
+      240
+    ],
+    "grid_dimensions": [
+      10,
+      25,
+      49
+    ],
+    "subset_seeds": [
+      201104,
+      201105,
+      201106,
+      201107,
+      201108
+    ],
+    "cost_bps": [
+      0,
+      25
+    ],
+    "primary_cost_bps": 25,
+    "bootstrap_replicates": 2000,
+    "bootstrap_block": 12,
+    "bootstrap_seed": 201104,
+    "periods": [
+      [
+        "2012-2015",
+        "2012-01",
+        "2015-12"
+      ],
+      [
+        "2016-2019",
+        "2016-01",
+        "2019-12"
+      ],
+      [
+        "2020-2024",
+        "2020-01",
+        "2024-12"
+      ]
+    ],
+    "ckz_mode": "eq13_scaled",
+    "weighting": "value",
+    "currency": "USD",
+    "original_rules": [
+      "ew",
+      "ml",
+      "pj",
+      "mp",
+      "kz",
+      "cml",
+      "cpj",
+      "cmp",
+      "ckz",
+      "cmp50"
+    ],
+    "regularized_rules": [
+      "ml",
+      "pj",
+      "mp",
+      "kz",
+      "cml",
+      "cpj",
+      "cmp",
+      "ckz",
+      "cmp50"
+    ],
+    "cmp_mode": "jk",
+    "cmp50": 0.5,
+    "primary_comparison": "each regularized rule minus its own unmodified rule at 25 bps",
+    "secondary_comparison": "every rule minus EW",
+    "covariance_protocol": "freeze component signal and original combination delta; shrink model-specific risk matrix"
+  },
+  "backend": {
+    "device": "cuda",
+    "dtype": "float64",
+    "cupy": "14.2.0",
+    "gpu": "NVIDIA GeForce RTX 3070",
+    "memory_bytes": 8589410304,
+    "cuda_runtime": 12090,
+    "cuda_driver": 13040
+  },
+  "packages": {
+    "numpy": "2.5.5",
+    "scipy": "1.18.1",
+    "pandas": "3.1.1",
+    "pyarrow": "26.0.1",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2"
+  },
+  "code_sha256": {
+    "all_model_studies.py": "fdada6c61eb90718109d4a2b91a5e4428b897768b8744d68ccd6e15411980d76",
+    "robustness_studies.py": "768bceb3dd9658aa9c496f79f57a090913f4dce6ea602f9c8872643777d5c8e2",
+    "research_extensions.py": "716049bec69c2fa06963d001e624d1246e15ce4e78a7098e592f0ae3ba9a9de7",
+    "extensions.py": "76c6f526723888745d4b4413ac5efb33d56f1bd609748902633776904b2af9fc",
+    "methods.py": "866ec7d4a8d0dcdc1a09bfca66fc01ed29f1ff22dded598dd37317f616bbfe33",
+    "mp.py": "ef457d2b59d40e4d1a3f27e1cafbbc394855f04628902fea3363fd96ae36b386",
+    "backend.py": "1fd77345f3d5229b67b900b9df63f46082b329f92ba80816335b5dc8d3eced84",
+    "data.py": "b001dd7b1ae3d8b0bce3e5437e905f33bd4be84ea9f5bf37c38c427cf48ec887",
+    "metrics.py": "b5fbfa4d8fb377269d2e472389922e33d97f6ab0dd592a0cd8ffe69b0331832d"
+  },
+  "inputs": {
+    "baseline_manifest_sha256": "3ca995df11d3a32deb9dbc2806318d093dee3118eb2b3f4b3e0b7d2f7748a62d",
+    "retained_manifest_sha256": "7646e4158ce16d150313b7a9470bd1de0c4b30013b8c94729af113a7609fb5d2",
+    "baseline_output_sha256": {
+      "empirical_checks.csv": "1a2949e6fedf84309dd69ba529ceee3b7551744183e32e1f82677fd0fb7a32a2",
+      "monthly_returns.parquet": "0029b10280a7001b7ddeba225001663083542ded590343cd74ab0220812a71e4",
+      "table6.csv": "3524dbaf1f581e864dec189c61af95453d9579a0d4b34ce81c300e3aa9dea51f",
+      "weights.parquet": "fe5dbece956728673642bc31423c288724beecd71373dfd2c370c29639f80d18"
+    },
+    "retained_output_sha256": {
+      "aggregate.csv": "4e537a9330d28c60446ef06de500e70ee08f1232eac35c19eeb8f2296965968d",
+      "diagnostics.csv": "8bd8c6d4fc53a3d4c6a30a743f901a42b8d0b17885011e575d69e41b7ca224e0",
+      "monthly.parquet": "f661b43b6abc1360736e36a9893655bc73d5a56939d64ff364d59dd7195c88ae",
+      "report.md": "2df0349075ed09f8f8275c8d1863c488938679046f102dc3b4ca2adfe492da43",
+      "summary.csv": "81568dcc028fb787a5427c783739c383aa64d72c9917c6d9b2eb271fa1c94406"
+    }
+  },
+  "processed_sha256": {
+    "factors3.parquet": "a59dc11bdcf722fecb340ae49195fd79943000a02aa2d3d435748e4b7640ad61",
+    "ff21.parquet": "0b4c67bb816336bcd5d9b0fd372cf9ff5b1e344193cdd1ff7f769c6ece0abf52",
+    "ff24.parquet": "b08b2b9056702ad0888eba238db48d56e797c0599a490178c7a6ef4e09b44600",
+    "ff28.parquet": "75afb4e20dd68250a78aa10fff20dc56b5c6abc22aed03a35442217d3fbfd427",
+    "industry11.parquet": "96f9b8b64413b2cb2219913634f4723010558d9ea011a2b28000a4735154be85",
+    "industry52.parquet": "1913f2eac7a2fbad03e88e1ffb011cf33ff21bf2afda2b1b79776ed1c4b14d26",
+    "international9.parquet": "0f4972b43f195567ff70a0657020e8a8e93e78150908beeb07203d7689d62870"
+  },
+  "completed_cases": 14,
+  "elapsed_seconds": 54.82900000002701,
+  "output_sha256": {
+    "aggregate.csv": "08a0aa541747bebe9e9e783f3fd8d10826852035932ad540b63998690928ab1b",
+    "cases.json": "df48a73922184c55be2bb6c97506ddbc9b3b9099824b2df6b6b3a02958fc3ede",
+    "diagnostics.csv": "7dcc36bbb9f20d3b4973d380959f0537355e3cdb1e8dc817bfb2f8e9bd0da411",
+    "monthly.parquet": "8ed0d4e0bc4d1092028de1a8b145814e6933d30b2dfc34a2e8a43ce8ac50f6b7",
+    "report.md": "3e098d7b286c29326d71ec06acb1fe8e5d6d5aee41e3aaff13dca7c3e3af4784",
+    "scores.csv": "eb7f3ecb0e50b96f4a12cbedd808dc24723ebe78c545c040ad0e06352e9b8a52",
+    "summary.csv": "87d79679549f360ab384719ec919e7c92cd5bd1e58a485c5daab302c9ee95245",
+    "processed/factors3.parquet": "a59dc11bdcf722fecb340ae49195fd79943000a02aa2d3d435748e4b7640ad61",
+    "processed/ff21.parquet": "0b4c67bb816336bcd5d9b0fd372cf9ff5b1e344193cdd1ff7f769c6ece0abf52",
+    "processed/ff24.parquet": "b08b2b9056702ad0888eba238db48d56e797c0599a490178c7a6ef4e09b44600",
+    "processed/ff28.parquet": "75afb4e20dd68250a78aa10fff20dc56b5c6abc22aed03a35442217d3fbfd427",
+    "processed/industry11.parquet": "96f9b8b64413b2cb2219913634f4723010558d9ea011a2b28000a4735154be85",
+    "processed/industry52.parquet": "1913f2eac7a2fbad03e88e1ffb011cf33ff21bf2afda2b1b79776ed1c4b14d26",
+    "processed/international9.parquet": "0f4972b43f195567ff70a0657020e8a8e93e78150908beeb07203d7689d62870"
+  }
+}

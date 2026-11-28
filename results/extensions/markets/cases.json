@@ -1,0 +1,62 @@
+[
+  {
+    "case_id": "developed6_M120",
+    "dataset": "developed6",
+    "N": 6,
+    "subset_seed": -1,
+    "assets": [
+      "asset_SMALL LoBM",
+      "asset_ME1 BM2",
+      "asset_SMALL HiBM",
+      "asset_BIG LoBM",
+      "asset_ME2 BM2",
+      "asset_BIG HiBM"
+    ],
+    "window": 120
+  },
+  {
+    "case_id": "developed6_M240",
+    "dataset": "developed6",
+    "N": 6,
+    "subset_seed": -1,
+    "assets": [
+      "asset_SMALL LoBM",
+      "asset_ME1 BM2",
+      "asset_SMALL HiBM",
+      "asset_BIG LoBM",
+      "asset_ME2 BM2",
+      "asset_BIG HiBM"
+    ],
+    "window": 240
+  },
+  {
+    "case_id": "emerging6_M120",
+    "dataset": "emerging6",
+    "N": 6,
+    "subset_seed": -1,
+    "assets": [
+      "asset_SMALL LoBM",
+      "asset_ME1 BM2",
+      "asset_SMALL HiBM",
+      "asset_BIG LoBM",
+      "asset_ME2 BM2",
+      "asset_BIG HiBM"
+    ],
+    "window": 120
+  },
+  {
+    "case_id": "emerging6_M240",
+    "dataset": "emerging6",
+    "N": 6,
+    "subset_seed": -1,
+    "assets": [
+      "asset_SMALL LoBM",
+      "asset_ME1 BM2",
+      "asset_SMALL HiBM",
+      "asset_BIG LoBM",
+      "asset_ME2 BM2",
+      "asset_BIG HiBM"
+    ],
+    "window": 240
+  }
+]

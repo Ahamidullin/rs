@@ -1,0 +1,12 @@
+* text=auto
+*.py text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+*.csv text eol=lf
+*.json text eol=lf
+*.png binary
+*.pdf binary
+*.pptx binary
+
+# Preserve provenance hashes of copied numerical artifacts byte for byte.
+/results/** -text whitespace=cr-at-eol

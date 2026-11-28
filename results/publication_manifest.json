@@ -1,0 +1,127 @@
+{
+  "description": "Compact completed-run export; no models were refitted",
+  "original_execution_manifests": "Record original run hashes, including large files not distributed here",
+  "files": {
+    "article/simulation/execution_manifest.json": {
+      "source": "runs/article_gpu_v1/simulation/sim_manifest.json",
+      "sha256": "aacd54b14432bf5261bb778ffae043fd3d6bc252f23065fd4b1cfb3185a5b2e7"
+    },
+    "article/simulation/footnote10_dispersion.csv": {
+      "source": "runs/article_gpu_v1/simulation/tables/footnote10_dispersion.csv",
+      "sha256": "60bb67a4d9db46f8e33854eb54966fb1f56440accafeea633eeae10b39e4668e"
+    },
+    "article/simulation/footnote4_ew_cash.csv": {
+      "source": "runs/article_gpu_v1/simulation/tables/footnote4_ew_cash.csv",
+      "sha256": "0adaea1550520475f517c0d59dc7124566e84f64eb35796eda66046211569e43"
+    },
+    "article/simulation/oracle_vs_estimated.csv": {
+      "source": "runs/article_gpu_v1/simulation/tables/oracle_vs_estimated.csv",
+      "sha256": "7604079d49087a946cdd5d21fc078eafe3a45aba73b22977fce27f65900b09ba"
+    },
+    "article/simulation/sim_summary.csv": {
+      "source": "runs/article_gpu_v1/simulation/tables/sim_summary.csv",
+      "sha256": "d93ecaab661a7f5208811464f972f4e39579c139c7f6b780e93ad0c6ca86d484"
+    },
+    "article/simulation/table1.csv": {
+      "source": "runs/article_gpu_v1/simulation/tables/table1.csv",
+      "sha256": "6e2c0a50e620170a0790b857861dd08295eb49961e4285a7c40b34ac2ed272bd"
+    },
+    "article/simulation/table2.csv": {
+      "source": "runs/article_gpu_v1/simulation/tables/table2.csv",
+      "sha256": "d4227fdf8a77f576342cfa4fa4c668448004b1d2dd61825344d14a78fbe5c17a"
+    },
+    "article/simulation/table3.csv": {
+      "source": "runs/article_gpu_v1/simulation/tables/table3.csv",
+      "sha256": "94868b3178dcf877922dcc1087999bbb1da26c15932cc0f8f377710511a65b1d"
+    },
+    "article/simulation/table4.csv": {
+      "source": "runs/article_gpu_v1/simulation/tables/table4.csv",
+      "sha256": "f4ef59ba7ac42836abc784802ad0a792c0a4c24c7b31d675a03987ce509d211e"
+    },
+    "article/simulation/table5.csv": {
+      "source": "runs/article_gpu_v1/simulation/tables/table5.csv",
+      "sha256": "973e18a600e8123325151631d6708c2d0d6191085352ddcbe63e4a9681af6b94"
+    },
+    "article/simulation/tables1_3_comparison.csv": {
+      "source": "runs/article_gpu_v1/simulation/tables/tables1_3_comparison.csv",
+      "sha256": "93d96514c7582bb545d1c55bb5757ec7f1fee9dd720c1989a85fa0af7a42b926"
+    },
+    "article/simulation/tables1_5_comparison.csv": {
+      "source": "runs/article_gpu_v1/simulation/tables/tables1_5_comparison.csv",
+      "sha256": "0b17503223a8e7c750568687c8de1ec3324a238057d280d18c75f1e99e2a6518"
+    },
+    "article/empirical/execution_manifest.json": {
+      "source": "runs/article_gpu_v1/replication/empirical_manifest.json",
+      "sha256": "3ca995df11d3a32deb9dbc2806318d093dee3118eb2b3f4b3e0b7d2f7748a62d"
+    },
+    "article/empirical/table6.csv": {
+      "source": "runs/article_gpu_v1/replication/table6.csv",
+      "sha256": "3524dbaf1f581e864dec189c61af95453d9579a0d4b34ce81c300e3aa9dea51f"
+    },
+    "article/empirical/empirical_checks.csv": {
+      "source": "runs/article_gpu_v1/replication/empirical_checks.csv",
+      "sha256": "1a2949e6fedf84309dd69ba529ceee3b7551744183e32e1f82677fd0fb7a32a2"
+    },
+    "extensions/regularization/aggregate.csv": {
+      "source": "runs/all_models_v1/regularization/aggregate.csv",
+      "sha256": "08a0aa541747bebe9e9e783f3fd8d10826852035932ad540b63998690928ab1b"
+    },
+    "extensions/regularization/summary.csv": {
+      "source": "runs/all_models_v1/regularization/summary.csv",
+      "sha256": "87d79679549f360ab384719ec919e7c92cd5bd1e58a485c5daab302c9ee95245"
+    },
+    "extensions/regularization/scores.csv": {
+      "source": "runs/all_models_v1/regularization/scores.csv",
+      "sha256": "eb7f3ecb0e50b96f4a12cbedd808dc24723ebe78c545c040ad0e06352e9b8a52"
+    },
+    "extensions/regularization/cases.json": {
+      "source": "runs/all_models_v1/regularization/cases.json",
+      "sha256": "df48a73922184c55be2bb6c97506ddbc9b3b9099824b2df6b6b3a02958fc3ede"
+    },
+    "extensions/regularization/execution_manifest.json": {
+      "source": "runs/all_models_v1/regularization/manifest.json",
+      "sha256": "4925f5a4e156dd0d313c8272b3177e6d9c1aa3f8c4478097082bef83ab5d2ad4"
+    },
+    "extensions/dimension_window/aggregate.csv": {
+      "source": "runs/all_models_v1/dimension_window/aggregate.csv",
+      "sha256": "4f78c8dd64ec6c4b64204b8993d12d28a9bf1d0c55e44d341aebc23f5150cbc3"
+    },
+    "extensions/dimension_window/summary.csv": {
+      "source": "runs/all_models_v1/dimension_window/summary.csv",
+      "sha256": "453021de0c686abc05410b50086f01488aca414e283bc95af7e3a31304f9858d"
+    },
+    "extensions/dimension_window/scores.csv": {
+      "source": "runs/all_models_v1/dimension_window/scores.csv",
+      "sha256": "aff1f36e0ac295cd158d14e7fbddb1852faf3fcbdd4db1b7c0d1d822a99a42c1"
+    },
+    "extensions/dimension_window/cases.json": {
+      "source": "runs/all_models_v1/dimension_window/cases.json",
+      "sha256": "03b34c37b97c8a8411f178694ce254ee8ca6df90c47f2dd4ac2dcac72974d1ed"
+    },
+    "extensions/dimension_window/execution_manifest.json": {
+      "source": "runs/all_models_v1/dimension_window/manifest.json",
+      "sha256": "c2ba9d03a41c81304ef677cbf8885700e24d41f8bba11a3c781f2e3bc16c1cdd"
+    },
+    "extensions/markets/aggregate.csv": {
+      "source": "runs/all_models_v1/markets/aggregate.csv",
+      "sha256": "cc20969c3fc19e14f8b3c326d5344f87ed62d446c3aefcaa26ef16b53bd4a1a0"
+    },
+    "extensions/markets/summary.csv": {
+      "source": "runs/all_models_v1/markets/summary.csv",
+      "sha256": "e3fb9302fe76141ef8b65edc301ca10d0604201caff02ec79b7d885e95bef3df"
+    },
+    "extensions/markets/scores.csv": {
+      "source": "runs/all_models_v1/markets/scores.csv",
+      "sha256": "9b90a44c96c428945fd828f873884403b4cac0492106c32fd33ed2a9f7c4456a"
+    },
+    "extensions/markets/cases.json": {
+      "source": "runs/all_models_v1/markets/cases.json",
+      "sha256": "5c74c397542cef1d6931740c4ebc90f6a4326259e4a618ae1d2823772356bd1f"
+    },
+    "extensions/markets/execution_manifest.json": {
+      "source": "runs/all_models_v1/markets/manifest.json",
+      "sha256": "4054e529ba10eb37e4e179af965cf9dd65ad97cc09b81f42972cd09518ce88ee"
+    }
+  },
+  "summary_sha256": "a30583a619d64651688d0e4de558515f252ac4cb79c87566014e24cdcb64b3bd"
+}

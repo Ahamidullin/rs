@@ -1,0 +1,6 @@
+-r requirements-part3.lock
+scikit-learn==1.9.1
+joblib==1.6.0
+narwhals==2.29.0
+threadpoolctl==3.8.0
+cloudpickle==3.1.3
